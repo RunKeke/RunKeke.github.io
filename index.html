@@ -8,21 +8,40 @@
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
     <script>
-        var client = new Paho.MQTT.Client("0.0.0.0", Number(3881), "clientId");
-        var client = new Paho.MQTT.Client("264102e9ac51433ebbd21aaeb57014e9.s1.eu.hivemq.cloud", Number(8884), "securithouse");
-        client.onMessageArrived = onMessageArrived;
+        const mqttServer = "264102e9ac51433ebbd21aaeb57014e9.s1.eu.hivemq.cloud";
+        const mqttPort = 8884;
+
+        const mqttUser = "keke12";
+        const mqttPassword = "Kekette12";
+
+        const client = new Paho.MQTT.Client(mqttServer, mqttPort, "clientId-" + parseInt(Math.random() * 100, 10));
+        
+        function onMessageArrived(message) {
+            console.log("Message reçu: " + message.payloadString);
+            document.getElementById("data").innerText = message.payloadString;
+        }
 
         function onConnect() {
             console.log("Connecté au serveur MQTT");
             client.subscribe("home/temperature");
         }
 
-        function onMessageArrived(message) {
-            console.log("Message arrivé: " + message.payloadString);
-            document.getElementById("data").innerHTML = message.payloadString;
+        function onConnectionLost(responseObject) {
+            if (responseObject.errorCode !== 0) {
+                console.log("Connexion perdue: " + responseObject.errorMessage);
+            }
         }
 
-        client.connect({ onSuccess: onConnect });
+        client.onMessageArrived = onMessageArrived;
+        client.onConnectionLost = onConnectionLost;
+
+        client.connect({
+            onSuccess: onConnect,
+            onFailure: function(e) { console.log("Échec de la connexion: " + e.errorMessage); },
+            userName: mqttUser,
+            password: mqttPassword,
+            useSSL: false
+        });
     </script>
 </head>
 <body>
