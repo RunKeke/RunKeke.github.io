@@ -1,10 +1,7 @@
-const mqttServer = "264102e9ac51433ebbd21aaeb57014e9.s1.eu.hivemq.cloud";
-const mqttPort = 8884;
+const mqttUser2 = "porte";
+const mqttPassword2 = "Porte123";
 
-const mqttUser = "porte";
-const mqttPassword = "Porte123";
-
-const client = new Paho.MQTT.Client(mqttServer, mqttPort, "clientId-" + parseInt(Math.random() * 100, 10));
+const client2 = new Paho.MQTT.Client(mqttServer, mqttPort, "clientId-" + parseInt(Math.random() * 100, 10));
 
 function onMessageArrived(message) {
     console.log("Message reçu: " + message.payloadString);
@@ -13,7 +10,7 @@ function onMessageArrived(message) {
 
 function onConnect() {
     console.log("Connecté au serveur MQTT");
-    client.subscribe("home/porte");
+    client2.subscribe("home/porte");
 }
 
 function onConnectionLost(responseObject) {
@@ -22,13 +19,13 @@ function onConnectionLost(responseObject) {
     }
 }
 
-client.onMessageArrived = onMessageArrived;
-client.onConnectionLost = onConnectionLost;
+client2.onMessageArrived = onMessageArrived;
+client2.onConnectionLost = onConnectionLost;
 
-client.connect({
+client2.connect({
     onSuccess: onConnect,
     onFailure: function(e) { console.log("Échec de la connexion: " + e.errorMessage); },
-    userName: mqttUser,
-    password: mqttPassword,
+    userName: mqttUser2,
+    password: mqttPassword2,
     useSSL: true
 });
