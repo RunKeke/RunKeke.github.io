@@ -18,7 +18,7 @@
         
         function onMessageArrived(message) {
             console.log("Message reçu: " + message.payloadString);
-            document.getElementById("data").innerText = "La température dans la maison est de :" + message.payloadString;
+            document.getElementById("data").innerText = "La température dans la maison est de : " + message.payloadString + "°C";
         }
 
         function onConnect() {
