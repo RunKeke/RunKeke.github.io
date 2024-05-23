@@ -7,48 +7,18 @@
         .sensor { margin: 20px; }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
-    <script>
-        const mqttServer = "264102e9ac51433ebbd21aaeb57014e9.s1.eu.hivemq.cloud";
-        const mqttPort = 8884;
-
-        const mqttUser = "keke12";
-        const mqttPassword = "Kekette12";
-
-        const client = new Paho.MQTT.Client(mqttServer, mqttPort, "clientId-" + parseInt(Math.random() * 100, 10));
-        
-        function onMessageArrived(message) {
-            console.log("Message reçu: " + message.payloadString);
-            document.getElementById("data").innerText = "La température dans la maison est de : " + message.payloadString + "°C";
-        }
-
-        function onConnect() {
-            console.log("Connecté au serveur MQTT");
-            client.subscribe("home/temperature");
-        }
-
-        function onConnectionLost(responseObject) {
-            if (responseObject.errorCode !== 0) {
-                console.log("Connexion perdue: " + responseObject.errorMessage);
-            }
-        }
-
-        client.onMessageArrived = onMessageArrived;
-        client.onConnectionLost = onConnectionLost;
-
-        client.connect({
-            onSuccess: onConnect,
-            onFailure: function(e) { console.log("Échec de la connexion: " + e.errorMessage); },
-            userName: mqttUser,
-            password: mqttPassword,
-            useSSL: true
-        });
-    </script>
+    <script src="scripts/temperature.js"></script>
+    <script src="scripts/porte.js"></script>
 </head>
 <body>
     <h1>Gestion de la Maison</h1>
-    <div class="sensor">
+    <div class="sensor1">
         <h2>Température</h2>
-        <p id="data">Aucune donnée reçue</p>
+        <p id="data1">Aucune donnée reçue</p>
+    </div>
+    <div class="sensor2">
+        <h2>Porte d'entrée</h2>
+        <p id="data2">Aucune donnée reçue</p>
     </div>
 </body>
 </html>
