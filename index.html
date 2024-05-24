@@ -9,6 +9,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
     <script src="scripts/temperature.js"></script>
     <script src="scripts/porte.js"></script>
+    <script>
+        function triggerAlarm() {
+    const message = new Paho.MQTT.Message("ALARM_ON");
+    message.destinationName = "home/alarm";
+    client.send(message);
+    console.log("Message d'alarme envoyé");
+        }
+    </script>
 </head>
 <body>
     <h1>Gestion de la Maison</h1>
