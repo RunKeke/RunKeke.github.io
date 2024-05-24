@@ -22,6 +22,13 @@ function onConnectionLost(responseObject) {
     }
 }
 
+function triggerAlarm() {
+    const message = new Paho.MQTT.Message("ALARM_ON");
+    message.destinationName = "home/alarm";
+    client.send(message);
+    console.log("Message d'alarme envoyé");
+}
+
 client.onMessageArrived = onMessageArrived;
 client.onConnectionLost = onConnectionLost;
 
